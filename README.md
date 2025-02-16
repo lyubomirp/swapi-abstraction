@@ -57,6 +57,28 @@ $ docker compose up --build
 ## Run tests
 No tests currently. We let God decide.
 
+## Structure
+The api uses versioning, so all endpoints are prefixed with /v1/. Currently, versioning is global, this can easily be changed with decorators
+
+All endpoints require a <b>resourceType</b> to be specified. This is anything from the SWAPI docs (planets, vehicles, people, films, etc.)
+
+There are two endpoints:
+<ul>
+    <li>/entity-data - Fetches single entity data from the specified resourceType. It requires an ID query param to be sent</li>
+    <li>/list-data - Fetches lists and paginated data from the specified resourceType. A 'page' parameter must be specified with a minimum value of 1. Can have a '&search=' parameter which searches based on the allowed search fields from SWAPI</li>
+</ul>
+
+## Examples
+<ul>
+    <li>Fetch single film - /v1/entity-data/?resourceType=films&id=1</li>
+    <li>Fetch all films - /v1/list-data?resourceType=films&page=1</li>
+    <li>Search films - /v1/list-data?resourceType=films&page=1&search=something</li>
+</ul>
+
+## Caching
+
+Caching is done in Redis with a total of 2 hours cache time under the namespace "swapi::" (this can be changed using the .env file)
+
 ## Resources
 
 Check out a few resources that may come in handy when working with NestJS:
