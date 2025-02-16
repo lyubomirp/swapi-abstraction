@@ -9,6 +9,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { createKeyv } from '@keyv/redis';
 import configuration from './config/configuration';
 import { HttpModule } from '@nestjs/axios';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -16,6 +17,14 @@ import { HttpModule } from '@nestjs/axios';
       load: [configuration],
       isGlobal: true,
     }),
+    // We can add rate limiting per resource, but there really is no point
+    // swapi limits us to 10000 req a day, and we cache for a while so...
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60, // per minute
+        limit: 50, // 50 requests
+      },
+    ]),
     HttpModule.register({ global: true }),
     CacheModule.registerAsync({
       useFactory: (configService: ConfigService) => {
