@@ -56,7 +56,6 @@ export class SwapiService {
     } else {
       url = `${url}/${id}`;
     }
-    console.log(url);
 
     try {
       const { data } = await firstValueFrom(
