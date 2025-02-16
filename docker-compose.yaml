@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  swapi:
+    build:
+      context: .
+      target: 'prod'
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    environment:
+      - PORT=${PORT}
+    networks:
+      swapi-network:
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    environment:
+      - REDIS_PASSWORD=test
+    networks:
+      swapi-network:
+
+volumes:
+  redis-data:
+    driver: local
+
+networks:
+  swapi-network:
+    driver: bridge
+    name: swapi-network
