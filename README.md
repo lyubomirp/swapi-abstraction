@@ -28,9 +28,14 @@
 A light abstraction layer over https://swapi.dev. Uses Redis for caching, and standard Nest.js modules for http requests, storing data and logging.
 
 ## Project setup
+Please note that everything is under a "swapi-network" so communication between redis and this api needs to be with container names and not localhost.
 
 ```bash
+# install deps
 $ npm install
+
+# make an .env file from the example
+$ cp .env.example .env
 ```
 
 ## Compile and run the project
