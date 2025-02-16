@@ -10,6 +10,8 @@ services:
       - '3001:3001'
     environment:
       - PORT=${PORT}
+    depends_on:
+      - redis
     networks:
       swapi-network:
 
